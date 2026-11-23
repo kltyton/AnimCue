@@ -1,0 +1,79 @@
+def modern = minecraft_version.startsWith('26.')
+def geckoGroup = modern ? 'com.geckolib' : 'software.bernie.geckolib'
+def geckoModule = "${geckoGroup}:geckolib-${loader}-${minecraft_version}"
+def compatibilityRun = providers.gradleProperty('animationCompatibility').map { it.toBoolean() }.getOrElse(false)
+def remapsMods = loader == 'forge' || !modern && loader == 'fabric'
+def compileScope = remapsMods ? 'modCompileOnly' : 'compileOnly'
+def runScope = remapsMods ? 'modRuntimeOnly' : 'runtimeOnly'
+
+repositories {
+    maven { url = uri('https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/') }
+    maven { url = uri('https://repo.redlance.org/public') }
+    maven { url = uri('https://api.modrinth.com/maven') }
+    maven { url = uri('https://maven.fabricmc.net/') }
+    if (compatibilityRun && loader == 'fabric') {
+        maven {
+            url = uri('https://raw.githubusercontent.com/Fuzss/modresources/main/maven/')
+            content { includeGroup('fuzs.forgeconfigapiport') }
+        }
+    }
+}
+
+dependencies {
+    add(compileScope, "${geckoModule}:${geckolib_version}")
+    add(runScope, "${geckoModule}:${geckolib_version}")
+    if (loader == 'forge') {
+        compileOnly 'net.fabricmc:sponge-mixin:0.17.5+mixin.0.8.7'
+        annotationProcessor 'net.fabricmc:sponge-mixin:0.17.5+mixin.0.8.7'
+    }
+    if (minecraft_version == '1.20.1') {
+        compileOnly 'com.eliotlash.mclib:mclib:20'
+        runtimeOnly 'com.eliotlash.mclib:mclib:20'
+    }
+    if (compatibilityRun && loader == 'fabric') {
+        add(runScope, "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_port_version}")
+    }
+    if (minecraft_version != '1.20.1') {
+        def palVersion = ['26.2': '1.2.9+mc.26.2', '26.1.2': '1.2.9+mc.26.1', '1.21.1': '1.1.6+mc.1.21.1'][minecraft_version]
+        def loaderArtifact = loader == 'fabric' ? 'PlayerAnimationLibFabric' : 'PlayerAnimationLibNeo'
+        add(compileScope, "com.zigythebird.playeranim:${loaderArtifact}:${palVersion}") { transitive = false }
+        compileOnly("com.zigythebird.playeranim:PlayerAnimationLibCore:${palVersion}") { transitive = false }
+        add(compileScope, "maven.modrinth:playeranimationlibrarymorerotation:1.2.1+mc${minecraft_version}-${loader}") { transitive = false }
+        if (compatibilityRun) {
+            // The release includes PAL Core and the renderer integration used by More Rotation.
+            def palRelease = ['26.2': 'HehiWi0E', '26.1.2': 'xzViDgSE',
+                    '1.21.1': loader == 'fabric' ? 'tDcfU8FO' : 'yjxtkvnD'][minecraft_version]
+            add(runScope, "maven.modrinth:player-animation-library:${palRelease}") { transitive = false }
+            add(runScope, "maven.modrinth:playeranimationlibrarymorerotation:1.2.1+mc${minecraft_version}-${loader}") { transitive = false }
+        }
+    }
+}
+
+if (loader == 'forge') {
+    mixin {
+        add(sourceSets.main, "${mod_id}.refmap.json")
+        config("${mod_id}.mixins.json")
+        config("${mod_id}.render.mixins.json")
+    }
+    tasks.named('jar', Jar) { finalizedBy 'reobfJar' }
+    tasks.named('processResources') {
+        filesMatching(['interactive_animation.mixins.json', 'interactive_animation.render.mixins.json']) {
+            filter { line -> line == '{' ? line + "\n  \"refmap\": \"interactive_animation.refmap.json\"," : line }
+        }
+    }
+    def common = project(':common')
+    gradle.projectsEvaluated {
+        def targetOptions = tasks.named('compileJava', JavaCompile).get().options
+        def providers = new ArrayList(targetOptions.compilerArgumentProviders)
+        def arguments = new ArrayList(targetOptions.compilerArgs)
+        targetOptions.compilerArgumentProviders.removeAll(providers)
+        common.tasks.named('compileJava', JavaCompile) {
+            options.annotationProcessorPath = common.configurations.annotationProcessor + configurations.annotationProcessor
+            options.compilerArgumentProviders.addAll(providers)
+            def refmap = new File(destinationDirectory.get().asFile, "${mod_id}.refmap.json")
+            options.compilerArgs.addAll(arguments.collect { argument ->
+                argument.startsWith('-AoutRefMapFile=') ? "-AoutRefMapFile=${refmap.absolutePath}" : argument
+            })
+        }
+    }
+}
