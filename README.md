@@ -1,14 +1,56 @@
-# 合拍 · AnimCue
+<div align="center">
 
-运行库面向 Minecraft 26.2 和 26.1.2 Fabric／NeoForge、1.21.1 Fabric／NeoForge、1.20.1 Fabric／Forge。工程按 KltytonTemple 组织。共享场景逻辑位于 `common/src/main`，渲染、网络和动画 API 的版本差异位于 `common/src/compat`。
+<img src="docs/publishing/artwork/animcue-icon-256.png" width="128" alt="AnimCue Icon" />
 
-模组 ID 为 `interactive_animation`。本项目以 [LGPL-3.0-or-later](LICENSE) 发布。
+# AnimCue (合拍)
 
-用 [合拍创作工具](tools/blockbench/README.md) 在 Blockbench 的同一个时间轴编辑多个参与者，再导出一个运行端可读取的互动动画文件。
+**Shared multi-actor interactive animation runtime for Minecraft entities, items, and blocks.**
 
-## 动画资源
+[English](README.md) | [简体中文](README_zh.md) · [Wiki (EN)](docs/wiki/Home.md) | [Wiki (中文)](docs/wiki/Home_zh.md)
 
-把 `kltyton:interactions` 加到现有 GeckoLib、PAL 或 Bedrock 动画 JSON 的顶层，以主动画名关联参与者。主动画照常使用 `bones` 和 `timeline`。
+</div>
+
+---
+
+## Overview
+
+**AnimCue** (mod ID: `interactive_animation`) is a multi-loader, multi-version Minecraft library that plays synchronized interactive animation scenes across multiple participants—such as players, mobs, vehicles, items, blocks, and custom models—from a single Bedrock-format animation JSON file.
+
+Author multi-participant scenes on a shared timeline (including root displacement, bone transforms, bend curves, camera tracks, and timeline markers), then trigger them from server or client code with automatic spatial alignment, movement/AI control leases, and multiplayer synchronization.
+
+- **Mod ID**: `interactive_animation`
+- **License**: [LGPL-3.0-or-later](LICENSE)
+- **Showcase Addon**: [Superb Warfare: Boarding](https://github.com/kltyton/SuperbWarfare-Boarding) — animated vehicle boarding and dismounting built on AnimCue.
+
+---
+
+## Supported Platforms
+
+| Minecraft | Fabric | NeoForge | Forge | Player Animation Layer |
+| --- | :---: | :---: | :---: | --- |
+| **26.2** | Yes | Yes | — | PAL + PAL More Rotation (optional) |
+| **26.1.2** | Yes | Yes | — | PAL + PAL More Rotation (optional) |
+| **1.21.1** | Yes | Yes | — | PAL + PAL More Rotation (optional) |
+| **1.20.1** | Yes | — | Yes | Native / Bendy adapters (optional) |
+
+---
+
+## Core Features
+
+- **Single-File Bedrock Extension (`interactive_animation:interactions`)**: Add a top-level `interactive_animation:interactions` block to standard GeckoLib, PAL, or Bedrock animation JSON files. Up to 64 participants per scene, keyed by the primary animation name.
+- **Root & Bone Channels**: Drive whole-actor motion via `interactive_animation:root` (16 model units = 1 block, unbounded degree rotations) alongside standard per-bone `position`, `rotation`, `scale`, and `bend` channels with `linear` or `catmullrom` interpolation.
+- **Ordered & Named Bindings + Bone Remapping**: Bind live `Entity`, `ItemStack`, or `BlockState` instances by role name or array order, with optional authored-to-model bone remapping (`Bindings#mapBones`).
+- **Alignment, Path Checks & Controls**: Configure snap/transition alignment tolerances, optional approach path checks, world-coordinate handoff (`SceneHandle#useWorldCoordinates`), carrier following, and reference-counted AI/movement/attack/interaction leases (`AnimationControls`).
+- **Camera Tracks & Modes**: Optional per-scene `camera` track plus `AUTO`, `VANILLA`, `FOLLOW`, and `LOCKED` camera modes.
+- **Ecosystem Integration**: Hooks cleanly into GeckoLib 4 & 5 (`GeckoSubjects`), PAL & PAL More Rotation, KBR renderers, and vanilla Minecraft models.
+
+---
+
+## Quick Start
+
+### 1. Define a Scene in JSON
+
+Add `interactive_animation:interactions` at the top level of your animation file:
 
 ```json
 {
@@ -17,10 +59,13 @@
     "animation.dragon.grab": {
       "animation_length": 1.2,
       "bones": {},
-      "timeline": { "0.25": "grab", "0.6": "release" }
+      "timeline": {
+        "0.25": "grab",
+        "0.6": "release"
+      }
     }
   },
-  "kltyton:interactions": {
+  "interactive_animation:interactions": {
     "animation.dragon.grab": {
       "participants": [
         {
@@ -28,11 +73,13 @@
           "type": "entity",
           "id": "minecraft:player",
           "bones": {
-            "kltyton:root": {
+            "interactive_animation:root": {
               "position": { "0.0": [0, 0, -16], "0.6": [0, 16, -16], "1.2": [0, 0, -80] },
               "rotation": { "0.6": [0, 0, 0], "1.2": [0, 0, 720] }
             },
-            "head": { "rotation": { "0.25": [15, 0, 0] } }
+            "head": {
+              "rotation": { "0.25": [15, 0, 0] }
+            }
           }
         }
       ]
@@ -41,13 +88,15 @@
 }
 ```
 
-- `kltyton:root` 表示整个参与者。位置用模型单位，16 单位等于一格。旋转用度，可以超过一圈。普通骨骼继续用 Bedrock 的通道与关键帧格式。可选的骨骼映射方向为「动画骨骼名 → 实际模型骨骼名」。
-- `type` 决定缺省素材，可选 `entity`、`item`、`block`、`model`。缺省是 `model`，由客户端的 `ClientAssets.registerModel` 注册对应模型工厂。世界中的实际实体、物品栈或方块状态可以覆盖缺省素材。
-- 可选 `camera` 与 `participants` 同级，直接写 Bedrock 的 `position` 和 `rotation`。`AUTO` 优先读这条镜头轨道，否则参与演出的玩家使用整体跟随。可以显式选择 `VANILLA`、`FOLLOW` 或 `LOCKED`。
+### 2. Register & Play from Java
 
-## 播放
+Register the packaged animation asset during mod initialization so the server loads the same file the client reads from resource packs:
 
-服务器通过 `InteractiveScenes.register(OwnerMod.class, "example:geckolib/animations/dragon.animation.json")` 注册其拥有的资源。客户端资源重载从现有动画目录读取同一文件。播放时用完整资源路径与动画名构造 `SceneId`。
+```java
+InteractiveScenes.register(OwnerMod.class, "example:geckolib/animations/dragon.animation.json");
+```
+
+Trigger the scene on the server:
 
 ```java
 var id = new SceneId("example:geckolib/animations/dragon.animation.json", "animation.dragon.grab");
@@ -57,21 +106,68 @@ var options = PlaybackOptions.DEFAULT
             if (!result.aligned()) playMissAnimation(result);
         })
         .markers(marker -> {
-            if (marker.instruction().equals("release")) marker.playback().useWorldCoordinates("victim");
+            if (marker.instruction().equals("release")) {
+                marker.playback().useWorldCoordinates("victim");
+            }
         });
 
 InteractiveScenes.play(subject, id, Bindings.named(Map.of("victim", player)), options);
 ```
 
-`InteractiveScenes.play(subject, id, player)` 按 JSON 数组顺序绑定。客户端使用 `ClientScenes.playLocal(subject, id)` 预览缺省素材，也可按名称或顺序绑定实例。联机播放绑定实际实体后才驱动真实位移。实体没有整体轨道时仍可播放关节轨道。
+For local client-only previews, call `ClientScenes.playLocal(subject, id)`.
 
-`GeckoSubjects` 提供实体、物品和方块实体入口。GeckoLib 5 也可传控制器以获取其过渡 tick。其他已有播放器可通过 `SceneSubject.playback` 提供启动、结束和过渡时间。抓取技能可在服务端确认命中时绑定目标，让前摇阶段的玩家仍可躲避。
+---
 
-默认允许无过渡时直接对位，路径检查默认关闭。对位选项独立于攻击、交互和镜头。驱动实际实体时默认锁定其 AI 或玩家移动输入。主体 AI 可单独暂停，模组也可注册 `AnimationControls.Strategy` 适配自定义控制器。控制权随播放释放，`SceneHandle.cancel()` 可提前结束。
+## Maven Dependency
 
-## 版本层
+Add the Sighs Maven repository to your `build.gradle`:
 
-- GeckoLib 4 和 5 分别在原生控制器取样后应用参与者通道。KBR 增强的 GeckoLib 模型走同一个渲染入口。
-- 26.x 的 KBR 附加包实体渲染器存在时，互动通道也会在原生姿势合成后应用到主体和额外几何 pass。开发环境使用各目标配置的 GeckoLib。`-PanimationCompatibility=true` 可加载受支持版本的 PAL 和 More Rotation。
-- 带有 PAL 的目标通过 PAL 动画层应用玩家姿势。有 MoreRotation 时适配多轴弯曲。1.20.1 的玩家使用原版模型通道。
-- `minecraft/modern` 用于 26.x 的渲染提交，`minecraft/legacy` 用于 1.20.1 和 1.21.1 的直接渲染。`registry_buffer` 用于 1.21.1 起的物品编解码，`pal` 用于可安装 PAL 的三个 Minecraft 版本。
+```groovy
+repositories {
+    maven {
+        name = "Sighs Maven"
+        url = uri("https://maven.sighs.cc/repository/maven-public/")
+    }
+}
+
+dependencies {
+    // Replace <loader>-<mc> with your target, e.g. neoforge-1.21.1, fabric-1.21.1, forge-1.20.1, fabric-26.2
+    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.0"
+}
+```
+
+---
+
+## Documentation (Wiki)
+
+Full documentation is available in both English and Chinese inside [`docs/wiki/`](docs/wiki/Home.md):
+
+| Topic | English | 简体中文 |
+| --- | --- | --- |
+| Wiki Home | [Home](docs/wiki/Home.md) | [首页](docs/wiki/Home_zh.md) |
+| Getting Started | [Getting Started](docs/wiki/en/Getting-Started.md) | [快速开始](docs/wiki/zh/快速开始.md) |
+| Animation JSON Format | [Animation Format](docs/wiki/en/Animation-Format.md) | [动画格式规范](docs/wiki/zh/动画格式规范.md) |
+| Playback & Binding API | [Playback API](docs/wiki/en/Playback-API.md) | [播放与绑定 API](docs/wiki/zh/播放与绑定API.md) |
+| Client Rendering & Camera | [Client Rendering & Camera](docs/wiki/en/Client-Rendering-and-Camera.md) | [客户端渲染与镜头](docs/wiki/zh/客户端渲染与镜头.md) |
+| Building & Architecture | [Building & Architecture](docs/wiki/en/Building-and-Architecture.md) | [构建与多版本架构](docs/wiki/zh/构建与多版本架构.md) |
+
+---
+
+## Building from Source
+
+The repository uses a KltytonTemple multi-target Gradle layout (`common/src/main` for shared scene logic, `common/src/compat` for version/loader adapters, and `targets/<loader>-<mc>` for each target build).
+
+Build any target from its subdirectory:
+
+```bash
+cd targets/neoforge-1.21.1
+../../gradlew build
+```
+
+Pass `-PanimationCompatibility=true` when running development environments with supported PAL / PAL More Rotation dependencies.
+
+---
+
+## License
+
+AnimCue is licensed under the **GNU Lesser General Public License v3.0 or later** ([LGPL-3.0-or-later](LICENSE)).

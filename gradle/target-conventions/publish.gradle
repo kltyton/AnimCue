@@ -128,32 +128,39 @@ publishing {
     publications {
         mod(MavenPublication) {
             artifact(productionFile) { builtBy verifyDistribution }
-            artifact(tasks.named('sourcesJar'))
+            artifact(tasks.named(tasks.findByName('remapSourcesJar') instanceof AbstractArchiveTask ? 'remapSourcesJar' : 'sourcesJar'))
             groupId = project.group.toString()
             artifactId = base.archivesName.get()
             version = project.version.toString()
+            pom {
+                name = mod_name
+                description = mod_description
+                url = 'https://github.com/kltyton/AnimCue'
+                licenses {
+                    license {
+                        name = 'LGPL-3.0-or-later'
+                        url = 'https://www.gnu.org/licenses/lgpl-3.0.html'
+                    }
+                }
+            }
         }
     }
     repositories {
-        def address = providers.environmentVariable('TEMPLE_MAVEN_URL')
-        if (address.present) {
-            maven {
-                name = 'remote'
-                url = uri(address.get())
-                credentials {
-                    username = providers.environmentVariable('MAVEN_USERNAME').orNull
-                    password = providers.environmentVariable('MAVEN_PASSWORD').orNull
-                }
+        maven {
+            name = 'Sighs'
+            url = uri(providers.environmentVariable('TEMPLE_MAVEN_URL').getOrElse('https://maven.sighs.cc/repository/maven-releases/'))
+            credentials {
+                username = providers.environmentVariable('SIGHS_PUBLISH_USER')
+                        .orElse(providers.environmentVariable('SIGH_PUBLISH_USER'))
+                        .orElse(providers.environmentVariable('MAVEN_USERNAME')).orNull
+                password = providers.environmentVariable('SIGHS_PUBLISH_PASSWORD')
+                        .orElse(providers.environmentVariable('SIGH_PUBLISH_PASSWORD'))
+                        .orElse(providers.environmentVariable('MAVEN_PASSWORD')).orNull
             }
         }
     }
 }
 tasks.named('publish') {
     dependsOn verifyDistribution
-    doFirst {
-        if (!providers.environmentVariable('TEMPLE_MAVEN_URL').present) {
-            throw new GradleException('Set TEMPLE_MAVEN_URL before Maven publishing.')
-        }
-    }
 }
 tasks.withType(GenerateModuleMetadata).configureEach { enabled = false }

@@ -32,7 +32,7 @@ final class PalScenePose {
         var bones = actor.bones();
         // PAL uses "body" for whole-avatar transforms and "torso" for the chest part.
         // Only forward "body" to PAL's avatar root when the animation distinguishes "torso";
-        // otherwise "body" is the vanilla/Blockbench chest bone and kltyton:root owns whole-avatar motion.
+        // otherwise "body" is the vanilla/Blockbench chest bone and interactive_animation:root owns whole-avatar motion.
         var track = switch (name) {
             case "body" -> bones.containsKey("torso") ? bones.get("body") : null;
             case "torso" -> bones.getOrDefault("torso", bones.get("body"));

@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public final class SceneReader {
-    public static final String SECTION = "kltyton:interactions";
+    public static final String SECTION = "interactive_animation:interactions";
     public static final int MAX_PARTICIPANTS = 64;
 
     private SceneReader() {}

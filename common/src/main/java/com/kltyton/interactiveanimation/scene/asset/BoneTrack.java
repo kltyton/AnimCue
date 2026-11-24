@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.world.phys.Vec3;
 
 public record BoneTrack(AnimationCurve position, AnimationCurve rotation, AnimationCurve scale, AnimationCurve bend, int channels) {
-    public static final String ROOT = "kltyton:root";
+    public static final String ROOT = "interactive_animation:root";
     public static final Vec3 UNIT_SCALE = new Vec3(1, 1, 1);
     public static final Pose IDENTITY = new Pose(Vec3.ZERO, Vec3.ZERO, UNIT_SCALE);
 
