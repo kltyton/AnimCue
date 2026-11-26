@@ -132,7 +132,7 @@ repositories {
 
 dependencies {
     // 将 <loader>-<mc> 替换为实际目标，例如 neoforge-1.21.1、fabric-1.21.1、forge-1.20.1、fabric-26.2
-    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.0"
+    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.1"
 }
 ```
 
