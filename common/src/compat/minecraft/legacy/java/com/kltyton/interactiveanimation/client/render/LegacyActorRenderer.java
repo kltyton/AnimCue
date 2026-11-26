@@ -39,6 +39,10 @@ public final class LegacyActorRenderer {
             poses.translate(offset.x, offset.y, offset.z);
             Object visual = value.visual();
             if (visual instanceof Entity entity) {
+                if (value.bound() == null) {
+                    entity.setPos(value.pose().position());
+                    entity.setOldPosAndRot();
+                }
                 var dispatcher = client.getEntityRenderDispatcher();
                 RootPose.orient(poses, value, entity.getYRot());
                 dispatcher.render(entity, 0, 0, 0, entity.getYRot(), partialTick, poses, buffers,

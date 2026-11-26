@@ -206,14 +206,18 @@ public final class ClientScene implements SceneHandle {
 
     ClientActor actor(Entity entity, float partialTick) {
         if (closed() || current == null) return null;
+        Role preview = null;
         for (Role role : roles.values()) {
-            if (role.entity() == entity) return role.actor(partialTick);
+            var bound = role.entity();
+            if (bound == entity) return role.actor(partialTick);
+            if (preview == null && bound == null && role.visual == entity) preview = role;
         }
-        if (!primaryBones.isEmpty() && entity.getId() == subjectId()) {
+        int subject = subjectId();
+        if (!primaryBones.isEmpty() && subject >= 0 && entity.getId() == subject) {
             var pose = new BoneTrack.Pose(entity.getPosition(partialTick), new Vec3(0, entity.getYRot(), 0), BoneTrack.UNIT_SCALE);
             return new ClientActor("primary", entity, entity, false, pose, time(partialTick), primaryBones, primaryMissing);
         }
-        return null;
+        return preview == null ? null : preview.actor(partialTick);
     }
 
     Entity subjectFor(Entity participant, String roleName) {
@@ -244,7 +248,8 @@ public final class ClientScene implements SceneHandle {
         var mode = remote == null ? options.camera() : remote.camera();
         if (mode == PlaybackOptions.CameraMode.VANILLA) return null;
         var actor = actor(player, partialTick);
-        if ((actor == null || !roles.containsKey(actor.role())) && player.getId() == subjectId()
+        int subject = subjectId();
+        if ((actor == null || !roles.containsKey(actor.role())) && subject >= 0 && player.getId() == subject
                 && current != null && (mode == PlaybackOptions.CameraMode.LOCKED || mode == PlaybackOptions.CameraMode.AUTO && definition.camera() != null)) {
             var pose = new BoneTrack.Pose(player.getPosition(partialTick), new Vec3(0, player.getYRot(), 0), BoneTrack.UNIT_SCALE);
             actor = new ClientActor("primary", player, player, false, pose, time(partialTick), primaryBones, primaryMissing);

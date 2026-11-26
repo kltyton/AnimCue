@@ -9,8 +9,11 @@ Plugin.register('animcue_studio', {
     version: '0.3.0',
     min_version: '5.0.0',
     variant: 'both',
-    repository: 'https://github.com/kltyton/AnimCue',
-    bug_tracker: 'https://github.com/kltyton/AnimCue/issues',
+    await_loading: true,
+    creation_date: '2026/11/24',
+    website: 'https://github.com/kltyton/AnimCue-Studio/wiki',
+    repository: 'https://github.com/kltyton/AnimCue-Studio',
+    bug_tracker: 'https://github.com/kltyton/AnimCue-Studio/issues',
     onload() {
         Locale.register();
         cleanup.push(...Participants.register());

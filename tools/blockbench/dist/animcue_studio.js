@@ -1086,7 +1086,7 @@ const Participants = (() => {
 
             function tag(g) {
                 const original = g[boneKey] || g.name;
-                if (!original || original === 'kltyton:root' || sourceNames.has(original)) {
+                if (!original || original === 'interactive_animation:root' || sourceNames.has(original)) {
                     throw new Error(Locale.t('err_duplicate_bone', {name: original}));
                 }
                 if (g[slotKey]?.role) throw new Error(Locale.t('err_nested_scene'));
@@ -1567,7 +1567,7 @@ const VanillaTemplates = (() => {
         const used = new Set();
         for (const group of Group.all) {
             let base = String(group.name || '').trim();
-            if (!base || base === 'kltyton:root') base = 'submodel';
+            if (!base || base === 'interactive_animation:root') base = 'submodel';
             let candidate = base;
             let suffix = 2;
             while (used.has(candidate)) candidate = `${base}_${suffix++}`;
@@ -1642,8 +1642,8 @@ const VanillaTemplates = (() => {
 })();
 
 const InteractionCodec = (() => {
-    const ROOT = 'kltyton:root';
-    const SECTION = 'kltyton:interactions';
+    const ROOT = 'interactive_animation:root';
+    const SECTION = 'interactive_animation:interactions';
     const CHANNELS = ['position', 'rotation', 'scale', 'bend'];
     let hookedCodec = null;
     let originalCodecLoad = null;
@@ -3689,8 +3689,11 @@ Plugin.register('animcue_studio', {
     version: '0.3.0',
     min_version: '5.0.0',
     variant: 'both',
-    repository: 'https://github.com/kltyton/AnimCue',
-    bug_tracker: 'https://github.com/kltyton/AnimCue/issues',
+    await_loading: true,
+    creation_date: '2026/11/24',
+    website: 'https://github.com/kltyton/AnimCue-Studio/wiki',
+    repository: 'https://github.com/kltyton/AnimCue-Studio',
+    bug_tracker: 'https://github.com/kltyton/AnimCue-Studio/issues',
     onload() {
         Locale.register();
         cleanup.push(...Participants.register());

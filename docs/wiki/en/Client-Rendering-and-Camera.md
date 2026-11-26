@@ -50,7 +50,7 @@ The factory must return an `Entity`, `ItemStack`, or `BlockState` instance that 
 | --- | --- |
 | `AUTO` | Uses the scene's `camera` track if authored; otherwise applies smooth follow framing for participating players. |
 | `VANILLA` | Leaves camera control to vanilla Minecraft or the calling mod's custom camera controller. |
-| `FOLLOW` | Forces third-person follow framing even when a `camera` track exists. |
+| `FOLLOW` | Keeps the current first- or third-person view while following the participant's root motion. Ignores the authored `camera` track. |
 | `LOCKED` | Locks camera orientation to the scene's authored `camera` track. |
 
 ---
