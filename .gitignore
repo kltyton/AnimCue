@@ -16,3 +16,6 @@ __pycache__/
 .env.*
 *.local.json
 targets/*/libs/*.jar
+*.log
+.DS_Store
+Thumbs.db

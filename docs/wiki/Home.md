@@ -9,13 +9,15 @@ Welcome to the official documentation for **AnimCue** (`interactive_animation`),
 1. **[Getting Started](en/Getting-Started.md)**
    Supported Minecraft/loader targets, adding AnimCue as a dependency, registering animation files, and playing your first multi-actor scene.
 2. **[Animation Format (`interactive_animation:interactions`)](en/Animation-Format.md)**
-   Complete specification of `interactive_animation:interactions`, participant definitions, `interactive_animation:root` transforms, bone channels (`position`, `rotation`, `scale`, `bend`), Catmull-Rom splines, `camera` tracks, and `timeline` markers.
+   Complete specification of `interactive_animation:interactions`, participant definitions, `interactive_animation:root` transforms, bone channels (`position`, `rotation`, `scale`, `bend`), Catmull-Rom splines, `camera` tracks, `timeline` markers, `sound_effects`, and `particle_effects`.
 3. **[Playback & Binding API](en/Playback-API.md)**
-   Reference for `InteractiveScenes`, `SceneId`, `SceneSubject`, `GeckoSubjects`, `Bindings`, `PlaybackOptions`, `SceneHandle`, `AlignmentResult`, and `AnimationControls`.
+   Reference for `InteractiveScenes`, `SceneId`, `SceneSubject`, `GeckoSubjects`, `Bindings`, `PlaybackOptions` (including sound/particle handlers and `SceneEffects`), `SceneHandle`, `AlignmentResult`, and `AnimationControls`.
 4. **[Client Rendering & Camera](en/Client-Rendering-and-Camera.md)**
    Reference for `ClientScenes`, `ClientAssets`, custom preview models, camera modes (`AUTO`, `VANILLA`, `FOLLOW`, `LOCKED`), player outer skin layers, PAL / PAL More Rotation bending, and GeckoLib / KBR hooks.
-5. **[Building & Multi-Version Architecture](en/Building-and-Architecture.md)**
-   Repository layout (`common/src/main`, `common/src/compat`, `targets/*`), building all 8 loader/version targets, optional compatibility properties, and licensing.
+5. **[Example Projects & Reference Assets](en/Examples.md)**
+   Ready-to-open Blockbench `.bbmodel` projects and exported `.animation.json` examples under `examples/` (excluded from library `.jar` artifacts).
+6. **[Building & Multi-Version Architecture](en/Building-and-Architecture.md)**
+   Repository layout (`common/src/main`, `common/src/compat`, `targets/*`, `examples/`), building all 8 loader/version targets, optional compatibility properties, and licensing.
 
 ## Core Design Principles
 

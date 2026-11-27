@@ -33,6 +33,7 @@ AnimCue/
 │   ├── neoforge-26.1.2/
 │   ├── fabric-26.2/
 │   └── neoforge-26.2/
+├── examples/           # Standalone Blockbench (.bbmodel) & animation examples (never packaged into JARs)
 ├── docs/wiki/          # Bilingual developer Wiki (EN & ZH)
 └── tools/blockbench/   # Blockbench authoring workspace reference
 ```

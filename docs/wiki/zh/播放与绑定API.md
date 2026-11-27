@@ -103,6 +103,25 @@ var bindings = Bindings.named(Map.of("hero", player))
 | `camera(CameraMode)` | `CameraMode.AUTO` | 可选 `AUTO`、`VANILLA`、`FOLLOW`、`LOCKED`。 |
 | `carrier(Entity)` | `null` | 指定可选的运动载体实体。 |
 | `markers(Consumer<Marker>)` | 空回调 | 接收主动画 `timeline` 触发的 `Marker(playback, instruction, seconds)` 事件。 |
+| `sounds(Consumer<SoundKeyframe>)` | 自动播放（非原生主轨／参与者轨） | 拦截 `sound_effects` 触发的 `SoundKeyframe(playback, role, effect, locator, seconds, position)`（传入 `ignored -> {}` 可禁用自动播放）。 |
+| `particles(Consumer<ParticleKeyframe>)` | 自动播放（非原生主轨／参与者轨） | 拦截 `particle_effects` 触发的 `ParticleKeyframe(playback, role, effect, locator, script, seconds, position)`。 |
+
+### `SceneEffects`
+
+可在自定义 `.sounds(...)` / `.particles(...)` 回调中复用合拍内置的注册表声音播放与粒子生成逻辑：
+
+```java
+SceneEffects.playSound(level, soundKeyframe);
+SceneEffects.playSound(level, sourceEntity, position, "minecraft:block.anvil.land", 1.0F, 1.0F);
+SceneEffects.spawnParticle(level, particleKeyframe);
+SceneEffects.spawnParticle(level, position, "minecraft:crit");
+SceneEffects.spawnParticle(level, position, "mymod:custom_kbr_fx", "v.size=0.75;");
+SceneEffects.spawnParticle(level, sourceEntity, position, "mymod:custom_kbr_fx", "v.size=0.75;");
+```
+
+未注册/非法 ID 以及无法直接作为 `ParticleOptions` 实例化的参数化粒子会安全返回 `false` 而不抛异常；当 `keyframe.playback()` 为 `null` 时，`playSound(level, keyframe)` 会跳过实体绑定查找并使用 `SoundSource.NEUTRAL` 在 `keyframe.position()` 处播放。
+
+当运行环境同时安装了 **Kltyton Bedrock Runtime**（`kltyton_bedrock_runtime`，兼容 Lite 与完整版）时，`SceneEffects.spawnParticle`（以及参与者轨与非原生 `nativePlayback = false` 主轨的默认粒子关键帧路径）在原版 `PARTICLE_TYPE` 未命中时会自动软兼容回退至 KBR `particle_definitions/*.json` 的暴雪 Billboard 与 3D 模型粒子，并自动传入可选的 `script` MoLang 初始化表达式；未安装 KBR 时零依赖、零报错，未知或仅 KBR 可用的粒子 ID 仍安全返回 `false`。
 
 ### `AlignmentResult`
 

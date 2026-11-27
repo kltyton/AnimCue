@@ -11,6 +11,7 @@ import com.kltyton.interactiveanimation.scene.asset.SceneDefinition;
 import com.kltyton.interactiveanimation.scene.network.ScenePacket;
 import com.kltyton.interactiveanimation.scene.playback.RoleMotion;
 import com.kltyton.interactiveanimation.scene.playback.SceneCollision;
+import com.kltyton.interactiveanimation.scene.playback.SceneEffectDispatcher;
 import com.mojang.logging.LogUtils;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public final class ClientScene implements SceneHandle {
     private final ArrayDeque<ScenePacket.Frame> waitingFrames = new ArrayDeque<>();
     private ScenePacket.Frame latestRemoteFrame;
     private int marker;
+    private final SceneEffectDispatcher effects = new SceneEffectDispatcher();
     private Entity controlled;
     private AnimationControls.Lease control;
     private boolean primaryStarted;
@@ -138,11 +140,13 @@ public final class ClientScene implements SceneHandle {
         double blend = approaching ? (double) elapsed / ticks : 1;
         double time = Math.min(definition.length(), Math.max(0, elapsed - ticks) / 20.0);
         var poses = new ArrayList<BoneTrack.Pose>(roles.size());
+        var rolePositions = new LinkedHashMap<String, Vec3>(roles.size());
         for (var role : roles.values()) {
             var target = role.motion.sample(role.participant.root(), time);
             if (role.bound == null || role.participant.root() == null) {
                 if (role.bound != null) target = role.actual(role.bound);
                 poses.add(target);
+                rolePositions.put(role.participant.role(), target.position());
                 continue;
             }
             Vec3 firstFrame = target.position();
@@ -170,6 +174,7 @@ public final class ClientScene implements SceneHandle {
                 if (closed()) return;
             }
             poses.add(target);
+            rolePositions.put(role.participant.role(), target.position());
         }
         accept(new ScenePacket.Frame(time, approaching, poses));
         if (!approaching) {
@@ -178,6 +183,14 @@ public final class ClientScene implements SceneHandle {
                 options.marker().accept(new PlaybackOptions.Marker(this, value.instruction(), value.seconds()));
                 if (closed()) return;
             }
+            effects.dispatch(level, this, definition, options, subject.nativePlayback(), time,
+                    () -> subject.frame().get().position(), subject.entity(),
+                    role -> rolePositions.getOrDefault(role, subject.frame().get().position()),
+                    role -> {
+                        Role value = roles.get(role);
+                        return value == null ? null : value.entity();
+                    }, this::closed);
+            if (closed()) return;
         }
         finalFrame = !approaching && time >= definition.length();
     }

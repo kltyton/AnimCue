@@ -50,6 +50,7 @@ final class ServerScene implements SceneHandle {
     private State state = State.APPROACHING;
     private double seconds;
     private int marker;
+    private final SceneEffectDispatcher effects = new SceneEffectDispatcher();
     private boolean primaryStarted;
     private boolean finalFrame;
 
@@ -153,6 +154,7 @@ final class ServerScene implements SceneHandle {
         double blend = approaching ? (double) elapsed / transition : 1;
         seconds = Math.min(definition.length(), Math.max(0, elapsed - transition) / 20.0);
         List<BoneTrack.Pose> poses = new ArrayList<>(roles.size());
+        Map<String, Vec3> rolePositions = new LinkedHashMap<>(roles.size());
         for (Role role : roles.values()) {
             BoneTrack.Pose target = role.sample(seconds);
             BoneTrack.Pose pose = target;
@@ -173,6 +175,7 @@ final class ServerScene implements SceneHandle {
                 }
             }
             poses.add(pose);
+            rolePositions.put(role.participant.role(), pose.position());
         }
         if (!approaching) {
             state = State.PLAYING;
@@ -181,6 +184,14 @@ final class ServerScene implements SceneHandle {
                 options.marker().accept(new PlaybackOptions.Marker(this, event.instruction(), event.seconds()));
                 if (closed()) return;
             }
+            effects.dispatch(level, this, definition, options, subject.nativePlayback(), seconds,
+                    () -> subject.frame().get().position(), subject.entity(),
+                    role -> rolePositions.getOrDefault(role, subject.frame().get().position()),
+                    role -> {
+                        Role value = roles.get(role);
+                        return value == null ? null : value.entity;
+                    }, this::closed);
+            if (closed()) return;
         }
         publish(new ScenePacket.Frame(seconds, approaching, poses));
         finalFrame = !approaching && seconds >= definition.length();

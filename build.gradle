@@ -1,3 +1,9 @@
-plugins {
-    id 'io.github.kltyton.temple'
+tasks.register('listTargets') {
+    group = 'help'
+    description = 'List all AnimCue loader/Minecraft build targets.'
+    doLast {
+        def dirs = file('targets').listFiles()?.findAll { it.isDirectory() }?.collect { it.name }?.sort() ?: []
+        println 'Available AnimCue targets (run `../../gradlew build verifyDistribution` inside a target directory):'
+        dirs.each { println "  - targets/${it}" }
+    }
 }

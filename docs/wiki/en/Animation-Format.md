@@ -33,7 +33,7 @@ AnimCue extends standard Bedrock / GeckoLib / PAL animation JSON files (`format_
 - Every key inside `interactive_animation:interactions` must match an existing animation key inside `animations`.
 - Each scene must declare between **1 and 64** entries in `participants`.
 - Every participant must have a unique, non-empty `role` string.
-- If `animation_length` is present on the primary animation, no bone track, camera track, or timeline marker may exceed `animation_length` (tolerance `1e-5`). If omitted, the scene length is computed from the last keyframe or marker timestamp.
+- If `animation_length` is present on the primary animation, no bone track, camera track, `timeline` marker, `sound_effects` keyframe, or `particle_effects` keyframe may exceed `animation_length` (tolerance `1e-5`). If omitted, the scene length is computed from the last keyframe or marker timestamp.
 
 ---
 
@@ -47,6 +47,8 @@ Each object in `participants` supports:
 | `type` | No | `string` | Default preview asset type: `entity`, `item`, `block`, or `model` (default: `model`). Case-insensitive. |
 | `id` | Yes | `string` | Resource identifier for the default asset (e.g. `minecraft:player`, `minecraft:iron_sword`, or a custom ID registered via `ClientAssets.registerModel`). |
 | `bones` | No | `object` | Map of bone name → channel tracks (`position`, `rotation`, `scale`, `bend`). |
+| `sound_effects` | No | `object` | Timed sound keyframes using the same format as primary `sound_effects` (dispatched with `role` set to the participant's role). |
+| `particle_effects` | No | `object` | Timed particle keyframes using the same format as primary `particle_effects` (dispatched with `role` set to the participant's role). |
 
 Live instances passed through `Bindings` override the default preview asset at playback time.
 
@@ -131,9 +133,9 @@ When `PlaybackOptions.CameraMode.AUTO` is selected, AnimCue drives the camera fr
 
 ---
 
-## Timeline Markers
+## Timeline, Sound, and Particle Keyframes
 
-The primary animation's `timeline` map fires server-side `PlaybackOptions.Marker` callbacks at the corresponding playback timestamp. Each timestamp may contain either a single string instruction or an array of string instructions:
+The primary animation's `timeline` map fires `PlaybackOptions.Marker` callbacks at the corresponding playback timestamp. Each timestamp may contain either a single string instruction or an array of string instructions:
 
 ```json
 "timeline": {
@@ -141,3 +143,24 @@ The primary animation's `timeline` map fires server-side `PlaybackOptions.Marker
   "0.85": ["settle", "mount"]
 }
 ```
+
+Standard Bedrock / GeckoLib `sound_effects` and `particle_effects` keyframes are also supported on both the primary animation and individual entries in `participants` (accepting an object, array, or plain `effect` ID string per timestamp):
+
+```json
+"sound_effects": {
+  "0.25": {
+    "effect": "minecraft:entity.experience_orb.pickup",
+    "locator": "mouth"
+  },
+  "0.80": "minecraft:block.anvil.land"
+},
+"particle_effects": {
+  "0.40": {
+    "effect": "minecraft:crit",
+    "locator": "right_hand",
+    "pre_effect_script": "slash"
+  }
+}
+```
+
+By default, registered sound events and simple particle types play automatically at the owner's position for participant tracks and non-native primary tracks (`nativePlayback = false`), while native controllers (such as GeckoLib via `GeckoSubjects`) keep owning primary sound/particle keyframes to avoid duplicate firing. When Kltyton Bedrock Runtime (`kltyton_bedrock_runtime`, Lite or full) is installed alongside AnimCue, default particle keyframes also automatically dispatch KBR `particle_definitions/*.json` billboard and 3D model particles with `pre_effect_script` / `script` MoLang initialization expressions.

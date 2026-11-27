@@ -42,6 +42,7 @@ Author multi-participant scenes on a shared timeline (including root displacemen
 - **Ordered & Named Bindings + Bone Remapping**: Bind live `Entity`, `ItemStack`, or `BlockState` instances by role name or array order, with optional authored-to-model bone remapping (`Bindings#mapBones`).
 - **Alignment, Path Checks & Controls**: Configure snap/transition alignment tolerances, optional approach path checks, world-coordinate handoff (`SceneHandle#useWorldCoordinates`), carrier following, and reference-counted AI/movement/attack/interaction leases (`AnimationControls`).
 - **Camera Tracks & Modes**: Optional per-scene `camera` track plus `AUTO`, `VANILLA`, `FOLLOW`, and `LOCKED` camera modes.
+- **Timeline, Sound & Particle Keyframes**: Fire server/client callbacks or auto-play registered `sound_effects` and `particle_effects` keyframes on both primary and participant tracks alongside `timeline` command markers.
 - **Ecosystem Integration**: Hooks cleanly into GeckoLib 4 & 5 (`GeckoSubjects`), PAL & PAL More Rotation, KBR renderers, and vanilla Minecraft models.
 
 ---
@@ -132,9 +133,15 @@ repositories {
 
 dependencies {
     // Replace <loader>-<mc> with your target, e.g. neoforge-1.21.1, fabric-1.21.1, forge-1.20.1, fabric-26.2
-    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.1"
+    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.2"
 }
 ```
+
+---
+
+## Examples
+
+Standalone Blockbench scene projects (`.bbmodel`) and exported `.animation.json` files live under [`examples/`](examples/README.md) (excluded from library JAR builds). See the [Examples Wiki](docs/wiki/en/Examples.md) for a walkthrough of `duel_clash` and `door_interaction`.
 
 ---
 
@@ -149,6 +156,7 @@ Full documentation is available in both English and Chinese inside [`docs/wiki/`
 | Animation JSON Format | [Animation Format](docs/wiki/en/Animation-Format.md) | [动画格式规范](docs/wiki/zh/动画格式规范.md) |
 | Playback & Binding API | [Playback API](docs/wiki/en/Playback-API.md) | [播放与绑定 API](docs/wiki/zh/播放与绑定API.md) |
 | Client Rendering & Camera | [Client Rendering & Camera](docs/wiki/en/Client-Rendering-and-Camera.md) | [客户端渲染与镜头](docs/wiki/zh/客户端渲染与镜头.md) |
+| Example Projects | [Examples](docs/wiki/en/Examples.md) | [示例工程与动画参考](docs/wiki/zh/示例工程与动画参考.md) |
 | Building & Architecture | [Building & Architecture](docs/wiki/en/Building-and-Architecture.md) | [构建与多版本架构](docs/wiki/zh/构建与多版本架构.md) |
 
 ---

@@ -6,11 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 public record SceneDefinition(SceneId id, double length, JsonObject primaryAnimation,
-                              List<Participant> participants, List<Marker> markers, BoneTrack camera) {
+                              List<Participant> participants, List<Marker> markers,
+                              List<SoundKeyframe> sounds, List<ParticleKeyframe> particles,
+                              BoneTrack camera) {
     public SceneDefinition {
         primaryAnimation = primaryAnimation.deepCopy();
         participants = List.copyOf(participants);
         markers = List.copyOf(markers);
+        sounds = List.copyOf(sounds);
+        particles = List.copyOf(particles);
+    }
+
+    public SceneDefinition(SceneId id, double length, JsonObject primaryAnimation,
+                           List<Participant> participants, List<Marker> markers, BoneTrack camera) {
+        this(id, length, primaryAnimation, participants, markers, List.of(), List.of(), camera);
     }
 
     @Override
@@ -27,4 +36,8 @@ public record SceneDefinition(SceneId id, double length, JsonObject primaryAnima
     }
 
     public record Marker(double seconds, String instruction) {}
+
+    public record SoundKeyframe(double seconds, String role, String effect, String locator) {}
+
+    public record ParticleKeyframe(double seconds, String role, String effect, String locator, String script) {}
 }

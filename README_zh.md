@@ -42,6 +42,7 @@
 - **按名 / 按序绑定与骨骼映射**：可将世界中的 `Entity`、`ItemStack` 或 `BlockState` 按角色名或数组顺序绑定到参与者，并支持「动画骨骼名 → 实际模型骨骼名」重映射（`Bindings#mapBones`）。
 - **对位、路径检查与控制权托管**：支持无过渡直对位、对位容差回调、路径可达性检查、世界坐标脱手（`SceneHandle#useWorldCoordinates`）、载体跟随以及引用计数式的 AI / 移动 / 攻击 / 交互控制权锁（`AnimationControls`）。
 - **独立镜头轨道与模式**：支持与 `participants` 同级的 `camera` 轨道，提供 `AUTO`、`VANILLA`、`FOLLOW`、`LOCKED` 四种镜头模式。
+- **时间轴、声音与粒子关键帧**：除主动画 `timeline` 指令事件外，还支持主体与参与者轨道上的 `sound_effects` 与 `particle_effects` 关键帧（支持自定义回调拦截与自动播放）。
 - **生态兼容**：原生适配 GeckoLib 4 与 5（`GeckoSubjects`）、PAL 与 PAL More Rotation、KBR 渲染器及原版模型渲染。
 
 ---
@@ -132,9 +133,15 @@ repositories {
 
 dependencies {
     // 将 <loader>-<mc> 替换为实际目标，例如 neoforge-1.21.1、fabric-1.21.1、forge-1.20.1、fabric-26.2
-    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.1"
+    implementation "com.kltyton:interactive_animation-<loader>-<mc>:0.1.2"
 }
 ```
+
+---
+
+## 示例工程
+
+仓库根目录的 [`examples/`](examples/README.md) 提供了独立的美术示例工程（`.bbmodel`）与导出的 `.animation.json`（不打包进库本体的发行 `.jar`）。使用说明请参阅 [示例工程与动画参考](docs/wiki/zh/示例工程与动画参考.md)。
 
 ---
 
@@ -149,6 +156,7 @@ dependencies {
 | 动画格式规范 | [动画格式规范](docs/wiki/zh/动画格式规范.md) | [Animation Format](docs/wiki/en/Animation-Format.md) |
 | 播放与绑定 API | [播放与绑定 API](docs/wiki/zh/播放与绑定API.md) | [Playback API](docs/wiki/en/Playback-API.md) |
 | 客户端渲染与镜头 | [客户端渲染与镜头](docs/wiki/zh/客户端渲染与镜头.md) | [Client Rendering & Camera](docs/wiki/en/Client-Rendering-and-Camera.md) |
+| 示例工程参考 | [示例工程与动画参考](docs/wiki/zh/示例工程与动画参考.md) | [Examples](docs/wiki/en/Examples.md) |
 | 构建与多版本架构 | [构建与多版本架构](docs/wiki/zh/构建与多版本架构.md) | [Building & Architecture](docs/wiki/en/Building-and-Architecture.md) |
 
 ---

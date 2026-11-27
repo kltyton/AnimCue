@@ -103,6 +103,25 @@ Immutable configuration record starting from `PlaybackOptions.DEFAULT`:
 | `camera(CameraMode)` | `CameraMode.AUTO` | `AUTO`, `VANILLA`, `FOLLOW`, or `LOCKED`. |
 | `carrier(Entity)` | `null` | Optional carrier entity whose motion the scene follows. |
 | `markers(Consumer<Marker>)` | no-op | Receives `Marker(playback, instruction, seconds)` callbacks from the primary animation's `timeline`. |
+| `sounds(Consumer<SoundKeyframe>)` | Auto-play (`!nativePlayback` or participant role) | Custom handler for `SoundKeyframe(playback, role, effect, locator, seconds, position)` (pass `ignored -> {}` to mute auto-play). |
+| `particles(Consumer<ParticleKeyframe>)` | Auto-play (`!nativePlayback` or participant role) | Custom handler for `ParticleKeyframe(playback, role, effect, locator, script, seconds, position)`. |
+
+### `SceneEffects`
+
+Utility helpers to reuse AnimCue's built-in registry lookup and playback inside custom `.sounds(...)` or `.particles(...)` callbacks:
+
+```java
+SceneEffects.playSound(level, soundKeyframe);
+SceneEffects.playSound(level, sourceEntity, position, "minecraft:block.anvil.land", 1.0F, 1.0F);
+SceneEffects.spawnParticle(level, particleKeyframe);
+SceneEffects.spawnParticle(level, position, "minecraft:crit");
+SceneEffects.spawnParticle(level, position, "mymod:custom_kbr_fx", "v.size=0.75;");
+SceneEffects.spawnParticle(level, sourceEntity, position, "mymod:custom_kbr_fx", "v.size=0.75;");
+```
+
+Unknown/invalid IDs and parameterized particles (not implementing `ParticleOptions`) safely return `false` without throwing; when `keyframe.playback()` is `null`, `playSound(level, keyframe)` skips entity binding lookup and plays at `keyframe.position()` using `SoundSource.NEUTRAL`.
+
+When **Kltyton Bedrock Runtime** (`kltyton_bedrock_runtime`, Lite or full) is installed alongside AnimCue, `SceneEffects.spawnParticle` (and the default particle keyframe path on participant tracks and non-native `nativePlayback = false` primary tracks) automatically falls back to KBR's `particle_definitions/*.json` billboard and 3D model particles when the particle ID is not a registered vanilla/mod `ParticleType`, passing the optional `script` MoLang initialization expression cleanly. Without KBR installed, vanilla particles still work identically and KBR-only IDs safely return `false`.
 
 ### `AlignmentResult`
 

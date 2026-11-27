@@ -9,13 +9,15 @@
 1. **[快速开始](zh/快速开始.md)**
    支持的 Minecraft 版本与加载器矩阵、前置依赖接入、资源注册以及第一个多角色互动场景示例。
 2. **[动画格式规范（`interactive_animation:interactions`）](zh/动画格式规范.md)**
-   完整说明 `interactive_animation:interactions` 顶层结构、参与者声明、`interactive_animation:root` 坐标约定、骨骼通道（`position` / `rotation` / `scale` / `bend`）、Catmull-Rom 样条、`camera` 轨道与 `timeline` 事件标记。
+   完整说明 `interactive_animation:interactions` 顶层结构、参与者声明、`interactive_animation:root` 坐标约定、骨骼通道（`position` / `rotation` / `scale` / `bend`）、Catmull-Rom 样条、`camera` 轨道与 `timeline`、`sound_effects`、`particle_effects` 关键帧。
 3. **[播放与绑定 API](zh/播放与绑定API.md)**
-   详解 `InteractiveScenes`、`SceneId`、`SceneSubject`、`GeckoSubjects`、`Bindings`、`PlaybackOptions`、`SceneHandle`、`AlignmentResult` 与 `AnimationControls`。
+   详解 `InteractiveScenes`、`SceneId`、`SceneSubject`、`GeckoSubjects`、`Bindings`、`PlaybackOptions`（含声音/粒子回调及 `SceneEffects`）、`SceneHandle`、`AlignmentResult` 与 `AnimationControls`。
 4. **[客户端渲染与镜头](zh/客户端渲染与镜头.md)**
    详解 `ClientScenes`、`ClientAssets`、自定义预览模型、镜头模式（`AUTO` / `VANILLA` / `FOLLOW` / `LOCKED`）、玩家第二层皮肤同步、PAL / PAL More Rotation 弯曲以及 GeckoLib / KBR 渲染桥接。
-5. **[构建与多版本架构](zh/构建与多版本架构.md)**
-   工程分层（`common/src/main`、`common/src/compat`、`targets/*`）、8 个目标的构建方式、兼容参数与开源协议说明。
+5. **[示例工程与动画参考](zh/示例工程与动画参考.md)**
+   介绍仓库根目录 `examples/` 下的独立 Blockbench `.bbmodel` 示例工程与导出 `.animation.json`（不打入发行 `.jar`）。
+6. **[构建与多版本架构](zh/构建与多版本架构.md)**
+   工程分层（`common/src/main`、`common/src/compat`、`targets/*`、`examples/`）、8 个目标的构建方式、兼容参数与开源协议说明。
 
 ## 核心设计理念
 

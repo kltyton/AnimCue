@@ -1,0 +1,1224 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "animcue_scene",
+    "box_uv": false
+  },
+  "name": "door_interaction",
+  "model_identifier": "example.door_interaction",
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "frame_left",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -10,
+        0,
+        -2
+      ],
+      "to": [
+        -8,
+        32,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        -9,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2ddd8663-001e-75e5-07f8-ee86f4a78e36"
+    },
+    {
+      "name": "frame_right",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        8,
+        0,
+        -2
+      ],
+      "to": [
+        10,
+        32,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        9,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "70de2af9-7830-b53d-ba59-cf66989b5b37"
+    },
+    {
+      "name": "frame_top",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -10,
+        32,
+        -2
+      ],
+      "to": [
+        10,
+        34,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        0,
+        33,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2d1b6a86-11b6-45e3-d8b6-213d880da89f"
+    },
+    {
+      "name": "door_panel",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -8,
+        0,
+        -1
+      ],
+      "to": [
+        8,
+        32,
+        1
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        -8,
+        16,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "b3620a9f-2877-46ed-8684-a666ea1e046c"
+    },
+    {
+      "name": "actor_body",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -4,
+        12,
+        -2
+      ],
+      "to": [
+        4,
+        24,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        0,
+        12,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "f5dfd660-f1a1-1270-8fe1-cad6d6017e70"
+    },
+    {
+      "name": "actor_right_arm",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -8,
+        12,
+        -2
+      ],
+      "to": [
+        -4,
+        24,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        -6,
+        22,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "e0f1654f-34cb-5dbe-8e4f-f87e460b1748"
+    },
+    {
+      "name": "actor_right_leg",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        -4,
+        0,
+        -2
+      ],
+      "to": [
+        0,
+        12,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        -2,
+        12,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "879180ee-9a34-4511-2e64-1397563125f9"
+    },
+    {
+      "name": "actor_left_leg",
+      "box_uv": false,
+      "rescale": false,
+      "locked": false,
+      "from": [
+        0,
+        0,
+        -2
+      ],
+      "to": [
+        4,
+        12,
+        2
+      ],
+      "autouv": 0,
+      "color": 0,
+      "origin": [
+        2,
+        12,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "1a02456d-afbd-0c12-c8d6-af8c6d647b18"
+    }
+  ],
+  "outliner": [
+    {
+      "name": "door_frame",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "7f1f9fd9-8f7c-45d8-ce21-8a31ab076486",
+      "export": true,
+      "mirror_uv": false,
+      "isOpen": true,
+      "locked": false,
+      "visibility": true,
+      "autouv": 0,
+      "children": [
+        "2ddd8663-001e-75e5-07f8-ee86f4a78e36",
+        "70de2af9-7830-b53d-ba59-cf66989b5b37",
+        "2d1b6a86-11b6-45e3-d8b6-213d880da89f"
+      ]
+    },
+    {
+      "name": "door_leaf",
+      "origin": [
+        -8,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "1121e527-bf56-7c4f-924c-7d2584c81192",
+      "export": true,
+      "mirror_uv": false,
+      "isOpen": true,
+      "locked": false,
+      "visibility": true,
+      "autouv": 0,
+      "children": [
+        "b3620a9f-2877-46ed-8684-a666ea1e046c"
+      ]
+    },
+    {
+      "name": "actor",
+      "origin": [
+        0,
+        0,
+        -20
+      ],
+      "color": 0,
+      "uuid": "260c1b58-d9dc-db8a-ea48-75a796439aea",
+      "export": true,
+      "mirror_uv": false,
+      "isOpen": true,
+      "locked": false,
+      "visibility": true,
+      "autouv": 0,
+      "children": [
+        {
+          "name": "actor_body",
+          "origin": [
+            0,
+            12,
+            0
+          ],
+          "color": 0,
+          "uuid": "fdeac8a3-a3ca-78e5-1e8b-b5b05a49363e",
+          "export": true,
+          "mirror_uv": false,
+          "isOpen": true,
+          "locked": false,
+          "visibility": true,
+          "autouv": 0,
+          "children": [
+            "f5dfd660-f1a1-1270-8fe1-cad6d6017e70",
+            {
+              "name": "actor_right_arm",
+              "origin": [
+                -6,
+                22,
+                0
+              ],
+              "color": 0,
+              "uuid": "29475f47-fed2-ab6d-6698-d232404265d7",
+              "export": true,
+              "mirror_uv": false,
+              "isOpen": true,
+              "locked": false,
+              "visibility": true,
+              "autouv": 0,
+              "children": [
+                "e0f1654f-34cb-5dbe-8e4f-f87e460b1748"
+              ],
+              "animcue_bone_name": "right_arm"
+            }
+          ],
+          "animcue_bone_name": "body"
+        },
+        {
+          "name": "actor_right_leg",
+          "origin": [
+            -2,
+            12,
+            0
+          ],
+          "color": 0,
+          "uuid": "7054ad48-c744-2fcd-b566-94fd09c75217",
+          "export": true,
+          "mirror_uv": false,
+          "isOpen": true,
+          "locked": false,
+          "visibility": true,
+          "autouv": 0,
+          "children": [
+            "879180ee-9a34-4511-2e64-1397563125f9"
+          ],
+          "animcue_bone_name": "right_leg"
+        },
+        {
+          "name": "actor_left_leg",
+          "origin": [
+            2,
+            12,
+            0
+          ],
+          "color": 0,
+          "uuid": "519aa7b8-9209-861c-e79d-693600c1c470",
+          "export": true,
+          "mirror_uv": false,
+          "isOpen": true,
+          "locked": false,
+          "visibility": true,
+          "autouv": 0,
+          "children": [
+            "1a02456d-afbd-0c12-c8d6-af8c6d647b18"
+          ],
+          "animcue_bone_name": "left_leg"
+        }
+      ],
+      "animcue_participant": {
+        "role": "actor",
+        "type": "entity",
+        "id": "minecraft:player"
+      }
+    }
+  ],
+  "textures": [
+    {
+      "path": "door_wood.png",
+      "name": "door_wood.png",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "group": "",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": true,
+      "use_as_default": true,
+      "layers_enabled": false,
+      "render_mode": "default",
+      "render_sides": "auto",
+      "visible": true,
+      "saved": true,
+      "mode": "bitmap",
+      "uuid": "17a353a6-1e95-daa7-b8eb-9d82970b8714",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIUlEQVR4nGMIs9X4TwlmABFdaW5k4VEDRg0YNYDaBlCCAaoeGEslyrzVAAAAAElFTkSuQmCC"
+    },
+    {
+      "path": "player_actor.png",
+      "name": "player_actor.png",
+      "folder": "",
+      "namespace": "",
+      "id": "1",
+      "group": "",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "render_mode": "default",
+      "render_sides": "auto",
+      "visible": true,
+      "saved": true,
+      "mode": "bitmap",
+      "uuid": "b2e1f213-83a9-46bf-3494-0d302ad548a1",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIklEQVR4nGMwygv4TwlmABERG1rIwqMGjBowagC1DaAEAwBtIWaPJ4wfCgAAAABJRU5ErkJggg=="
+    }
+  ],
+  "animations": [
+    {
+      "uuid": "d3be59f4-a8d1-04f9-f592-7a2f8d3a5b6b",
+      "name": "animation.example.open_door",
+      "loop": "once",
+      "override": false,
+      "length": 1.4,
+      "snapping": 20,
+      "selected": true,
+      "animators": {
+        "1121e527-bf56-7c4f-924c-7d2584c81192": {
+          "name": "door_leaf",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "91455d14-c5ec-b6e8-e312-32ee495d93c8",
+              "time": 0,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "ad808b33-3d8d-eb9b-897e-a470900a068a",
+              "time": 0.35,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": -85,
+                  "z": 0
+                }
+              ],
+              "uuid": "1a07559e-59e2-f6a7-de24-69df4d54724f",
+              "time": 0.85,
+              "color": -1,
+              "interpolation": "catmullrom"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": -85,
+                  "z": 0
+                }
+              ],
+              "uuid": "08e85866-1dfb-3186-0b8c-e65e3a6ee283",
+              "time": 1.4,
+              "color": -1,
+              "interpolation": "linear"
+            }
+          ]
+        },
+        "260c1b58-d9dc-db8a-ea48-75a796439aea": {
+          "name": "actor",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "position",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": -20
+                }
+              ],
+              "uuid": "528f7f39-fc0a-f6bb-0ce3-0e289204016e",
+              "time": 0,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "position",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": -14
+                }
+              ],
+              "uuid": "4cced345-4aaf-f016-789d-4e65e8188529",
+              "time": 0.35,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "position",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "6336e18f-dd86-ffe0-7f76-5a131e29988c",
+              "time": 0.95,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "position",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 20
+                }
+              ],
+              "uuid": "b9626ab8-83b7-f7e5-07e1-86f4b65db194",
+              "time": 1.4,
+              "color": -1,
+              "interpolation": "linear"
+            }
+          ]
+        },
+        "29475f47-fed2-ab6d-6698-d232404265d7": {
+          "name": "actor_right_arm",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "de459a78-89a0-5e97-3f82-8ff57e71f6ef",
+              "time": 0,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": -55,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "3b0a9567-9732-94ca-03ba-9ee418ac8135",
+              "time": 0.35,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": -15,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "4413e46d-9cab-eb76-8246-ffa3559e821a",
+              "time": 0.85,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "5753810c-99b4-8d81-fd51-93a99664c667",
+              "time": 1.4,
+              "color": -1,
+              "interpolation": "linear"
+            }
+          ]
+        },
+        "7054ad48-c744-2fcd-b566-94fd09c75217": {
+          "name": "actor_right_leg",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "25448e5c-b5cd-3bdc-49fa-b552dcca69e2",
+              "time": 0.35,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 24,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "8e702ab0-e6db-1a38-1a8e-2ce4e99d325b",
+              "time": 0.7,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": -24,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "61894694-1c3d-5f41-8143-18bb8e3fa40d",
+              "time": 1.05,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "1b9f6b27-b50d-940f-1b83-bba039dd1e78",
+              "time": 1.4,
+              "color": -1,
+              "interpolation": "linear"
+            }
+          ]
+        },
+        "519aa7b8-9209-861c-e79d-693600c1c470": {
+          "name": "actor_left_leg",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "997900dd-64ba-a64a-b8e8-3a1f59447aca",
+              "time": 0.35,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": -24,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "d0482464-c78d-bdfb-6e51-429e42874ec0",
+              "time": 0.7,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 24,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "311bb38b-5218-3d27-e673-6419434b46ca",
+              "time": 1.05,
+              "color": -1,
+              "interpolation": "linear"
+            },
+            {
+              "channel": "rotation",
+              "data_points": [
+                {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              ],
+              "uuid": "7460eb95-ac6b-c191-c2b2-587ba8fd6384",
+              "time": 1.4,
+              "color": -1,
+              "interpolation": "linear"
+            }
+          ]
+        },
+        "effects": {
+          "name": "Effects",
+          "type": "effect",
+          "keyframes": [
+            {
+              "channel": "timeline",
+              "uuid": "c680af5d-c037-cb3f-09bf-d3f5d7f79286",
+              "time": 0.35,
+              "data_points": [
+                {
+                  "script": "door_open"
+                }
+              ]
+            },
+            {
+              "channel": "timeline",
+              "uuid": "9b18e685-0adb-5dac-3464-cf7a92fd9678",
+              "time": 0.95,
+              "data_points": [
+                {
+                  "script": "step_through"
+                }
+              ]
+            },
+            {
+              "channel": "sound",
+              "uuid": "c6e33e5e-d7e5-023d-ac81-67910a8b583a",
+              "time": 0.35,
+              "data_points": [
+                {
+                  "effect": "minecraft:block.iron_door.open",
+                  "locator": "door_leaf"
+                }
+              ]
+            },
+            {
+              "channel": "particle",
+              "uuid": "36d5dae4-370f-b670-9e00-855a458cf95d",
+              "time": 0.35,
+              "data_points": [
+                {
+                  "effect": "minecraft:crit"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

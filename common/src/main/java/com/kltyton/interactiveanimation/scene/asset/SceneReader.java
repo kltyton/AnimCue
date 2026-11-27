@@ -50,6 +50,9 @@ public final class SceneReader {
             throw new IllegalArgumentException("Expected 1 to " + MAX_PARTICIPANTS + " participants in " + id.animation());
         }
         double length = lastBoneTime(primary.getAsJsonObject("bones"));
+        var sounds = new ArrayList<SceneDefinition.SoundKeyframe>();
+        var particles = new ArrayList<SceneDefinition.ParticleKeyframe>();
+        length = Math.max(length, readEffects(primary, null, sounds, particles));
         for (JsonElement entry : list) {
             JsonObject participant = entry.getAsJsonObject();
             String role = string(participant, "role");
@@ -69,6 +72,7 @@ public final class SceneReader {
             BoneTrack rootTrack = bones.remove(BoneTrack.ROOT);
             if (rootTrack != null) length = Math.max(length, rootTrack.endTime());
             for (BoneTrack track : bones.values()) length = Math.max(length, track.endTime());
+            length = Math.max(length, readEffects(participant, role, sounds, particles));
             participants.add(new SceneDefinition.Participant(role,
                     SceneDefinition.AssetKind.valueOf(kind.toUpperCase(Locale.ROOT)), asset, rootTrack, bones));
         }
@@ -84,6 +88,8 @@ public final class SceneReader {
             }
             markers.sort(Comparator.comparingDouble(SceneDefinition.Marker::seconds));
         }
+        sounds.sort(Comparator.comparingDouble(SceneDefinition.SoundKeyframe::seconds));
+        particles.sort(Comparator.comparingDouble(SceneDefinition.ParticleKeyframe::seconds));
         var camera = extension.getAsJsonObject("camera");
         BoneTrack cameraTrack = camera == null ? null : BoneTrack.read(camera);
         if (cameraTrack != null) length = Math.max(length, cameraTrack.endTime());
@@ -92,7 +98,81 @@ public final class SceneReader {
             if (length > authoredLength + 0.00001) throw new IllegalArgumentException("A track or marker exceeds animation_length");
             length = authoredLength;
         }
-        return new SceneDefinition(id, length, primary, participants, markers, cameraTrack);
+        return new SceneDefinition(id, length, primary, participants, markers, sounds, particles, cameraTrack);
+    }
+
+    private static double readEffects(JsonObject source, String role,
+                                      ArrayList<SceneDefinition.SoundKeyframe> sounds,
+                                      ArrayList<SceneDefinition.ParticleKeyframe> particles) {
+        double max = readEffectSection(optionalObject(source, "sound_effects"), "sound_effects", (seconds, item) -> {
+            var parsed = parseEffect(item, "sound_effects", seconds);
+            sounds.add(new SceneDefinition.SoundKeyframe(seconds, role, parsed[0], parsed[1]));
+        });
+        return Math.max(max, readEffectSection(optionalObject(source, "particle_effects"), "particle_effects", (seconds, item) -> {
+            var parsed = parseEffect(item, "particle_effects", seconds);
+            particles.add(new SceneDefinition.ParticleKeyframe(seconds, role, parsed[0], parsed[1], parsed[2]));
+        }));
+    }
+
+    @FunctionalInterface
+    private interface EffectConsumer {
+        void accept(double seconds, JsonElement item);
+    }
+
+    private static double readEffectSection(JsonObject section, String name, EffectConsumer consumer) {
+        if (section == null) return 0;
+        double max = 0;
+        for (var entry : section.entrySet()) {
+            double seconds = time(entry.getKey());
+            JsonElement payload = entry.getValue();
+            boolean any = false;
+            if (payload.isJsonArray()) {
+                for (JsonElement item : payload.getAsJsonArray()) {
+                    consumer.accept(seconds, item);
+                    any = true;
+                }
+            } else {
+                consumer.accept(seconds, payload);
+                any = true;
+            }
+            if (any) max = Math.max(max, seconds);
+        }
+        return max;
+    }
+
+    private static String[] parseEffect(JsonElement item, String section, double seconds) {
+        if (item.isJsonPrimitive() && item.getAsJsonPrimitive().isString()) {
+            String effect = item.getAsString();
+            if (effect.isBlank()) throw new IllegalArgumentException("Expected a nonempty effect in " + section + " at " + seconds);
+            return new String[]{effect, "", ""};
+        }
+        if (!item.isJsonObject()) {
+            throw new IllegalArgumentException("Expected string or object in " + section + " at " + seconds);
+        }
+        JsonObject object = item.getAsJsonObject();
+        String effect = string(object, "effect");
+        String locator = optionalString(object, "locator");
+        String script = optionalString(object, "pre_effect_script");
+        if (script.isEmpty()) script = optionalString(object, "script");
+        return new String[]{effect, locator, script};
+    }
+
+    private static JsonObject optionalObject(JsonObject object, String name) {
+        JsonElement field = object.get(name);
+        if (field == null || field.isJsonNull()) return null;
+        if (!field.isJsonObject()) {
+            throw new IllegalArgumentException("Expected object for " + name);
+        }
+        return field.getAsJsonObject();
+    }
+
+    private static String optionalString(JsonObject object, String name) {
+        JsonElement field = object.get(name);
+        if (field == null || field.isJsonNull()) return "";
+        if (!field.isJsonPrimitive() || !field.getAsJsonPrimitive().isString()) {
+            throw new IllegalArgumentException("Expected string for " + name);
+        }
+        return field.getAsString();
     }
 
     private static void addMarker(ArrayList<SceneDefinition.Marker> markers, double seconds, JsonElement instruction) {

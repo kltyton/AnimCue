@@ -1,0 +1,212 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.example.duel_clash": {
+      "animation_length": 1.6,
+      "bones": {
+        "right_arm": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "0.45": {
+              "post": [
+                -110,
+                15,
+                0
+              ],
+              "lerp_mode": "catmullrom"
+            },
+            "1.1": [
+              -35,
+              0,
+              0
+            ],
+            "1.6": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      "timeline": {
+        "0.45": "impact",
+        "1.1": "release"
+      },
+      "sound_effects": {
+        "0.45": [
+          {
+            "effect": "minecraft:entity.iron_golem.attack",
+            "locator": "right_arm"
+          },
+          {
+            "effect": "minecraft:block.anvil.land"
+          }
+        ]
+      },
+      "particle_effects": {
+        "0.45": {
+          "effect": "minecraft:crit",
+          "locator": "right_arm",
+          "pre_effect_script": "impact_burst"
+        }
+      }
+    }
+  },
+  "interactive_animation:interactions": {
+    "animation.example.duel_clash": {
+      "participants": [
+        {
+          "role": "victim",
+          "type": "entity",
+          "id": "minecraft:player",
+          "bones": {
+            "interactive_animation:root": {
+              "position": {
+                "0.0": [
+                  0,
+                  0,
+                  -24
+                ],
+                "0.45": {
+                  "post": [
+                    0,
+                    10,
+                    -24
+                  ],
+                  "lerp_mode": "catmullrom"
+                },
+                "1.1": [
+                  0,
+                  14,
+                  -40
+                ],
+                "1.6": [
+                  0,
+                  0,
+                  -72
+                ]
+              },
+              "rotation": {
+                "0.0": [
+                  0,
+                  0,
+                  0
+                ],
+                "1.1": [
+                  0,
+                  0,
+                  0
+                ],
+                "1.6": [
+                  0,
+                  360,
+                  0
+                ]
+              }
+            },
+            "body": {
+              "rotation": {
+                "0.0": [
+                  0,
+                  0,
+                  0
+                ],
+                "0.45": [
+                  -18,
+                  0,
+                  0
+                ],
+                "1.6": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            },
+            "right_arm": {
+              "rotation": {
+                "0.0": [
+                  0,
+                  0,
+                  0
+                ],
+                "0.45": {
+                  "post": [
+                    -70,
+                    0,
+                    18
+                  ],
+                  "lerp_mode": "catmullrom"
+                },
+                "1.6": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "bend": {
+                "0.0": [
+                  12,
+                  0,
+                  0
+                ],
+                "0.45": {
+                  "post": [
+                    58,
+                    0,
+                    0
+                  ],
+                  "lerp_mode": "catmullrom"
+                },
+                "1.6": [
+                  12,
+                  0,
+                  0
+                ]
+              }
+            }
+          },
+          "sound_effects": {
+            "1.1": "minecraft:entity.player.attack.knockback"
+          },
+          "particle_effects": {
+            "1.1": {
+              "effect": "minecraft:cloud",
+              "locator": "body"
+            }
+          }
+        }
+      ],
+      "camera": {
+        "position": {
+          "0.0": [
+            24,
+            28,
+            -56
+          ],
+          "1.6": [
+            -24,
+            24,
+            -64
+          ]
+        },
+        "rotation": {
+          "0.0": [
+            12,
+            -20,
+            0
+          ],
+          "1.6": [
+            10,
+            20,
+            0
+          ]
+        }
+      }
+    }
+  }
+}
